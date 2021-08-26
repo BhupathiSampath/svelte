@@ -1,20 +1,32 @@
 <script>
-	// import Router from 'svelte-spa-router';
-	// import registration from './registration.svelte'
-	import { onMount } from "svelte";
+import {goto} from "$app/navigation"
+import user from './data.svelte'
+
+let username ='dilip', Total_sequenced = '', Sequenced_last_week ='', Uploaded_IGIB_SFTP ='',Uploaded_NIBMG_DataHub ='',Uploaded_GISAID ='',Any_collaboration =''
+
+const submit = async () => {
+    await fetch('http://10.10.6.73/SequenceUpload', {
+        method : 'POST',
+        headers : {'content-type':'application/json'},
+        credentials : 'include',
+        body : JSON.stringify({
+            username,
+            Total_sequenced,
+            Sequenced_last_week,
+            Uploaded_IGIB_SFTP,
+            Uploaded_NIBMG_DataHub,
+            Uploaded_GISAID,
+            Any_collaboration
+        })
+    });
+
+    await goto("/sequenceddata")
+};
+// ________________homeview_________________________
+    import {onMount} from 'svelte';
 	import { writable, derived } from 'svelte/store';
-	// import Login from './login.svelte';
-	
-	/** Store for your data. 
-	This assumes the data you're pulling back will be an array.
-	If it's going to be an object, default this to an empty object.
-	**/
 	export const apiData = writable([]);
 	
-	/** Data transformation.
-	For our use case, we only care about the drink names, not the other information.
-	Here, we'll create a derived store to hold the drink names.
-	**/
 	export const Data = derived(apiData, ($apiData) => {
 	  if ($apiData.data){
 		// return $apiData.data.map(username => username.username);
@@ -22,19 +34,23 @@
 	  }
 	  return [];
 	});
-	onMount(async () => {
-	  fetch("http://127.0.0.1:8080/homeview")
-	  .then(response => response.json())
-	  .then(data => {
-			console.log(data);
-		apiData.set(data);
-	  }).catch(error => {
-		console.log(error);
-		return [];
-	  });
-	});
-	</script>
-
+    onMount(async () => {
+        // const response = await fetch('http://127.0.0.1:8000/userview', {
+        const response = await fetch('http://10.10.6.73/homeview', {
+        headers: {'Content-Type':'application/json'},
+        credentials: 'include',
+        })
+        .then(response => response.json())
+        .then(data => {
+                console.log(data);
+            apiData.set(data);
+        }).catch(error => {
+            console.log(error);
+            return [];
+        });
+            console.log(content)
+    });
+</script>
 
 <html lang="en">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
@@ -48,44 +64,45 @@
 <body>
 
 
+
     <div class="box">
         <h1>Upload your sequenced data here.</h1>
-            <form action="upload" method="post">
+            <form on:submit|preventDefault={submit}>
                         <div class="columns is-centered mb-0">
                             <div class="column is-4">
-                                    <input type="hidden" class="input" name="username" value="{Data.username}" hidden>
+                                    <input type="hidden" class="input" value={username} hidden>
                                 <div class="column">
                                     <!-- svelte-ignore a11y-label-has-associated-control -->
                                     <label>Total sequenced:</label>
-                                    <input class="input" type="number" name="Total_sequenced"  required="required">                                
+                                    <input bind:value={Total_sequenced} class="input" type="number" name="Total_sequenced"  required="required">                                
                                 </div>
                                 <div class="column">
                                     <!-- svelte-ignore a11y-label-has-associated-control -->
                                     <label class="lable">Last week:</label>
-                                    <input class="input" type="number" name="Sequenced_last_week"  required="required">                                
+                                    <input bind:value={Sequenced_last_week} class="input" type="number" name="Sequenced_last_week"  required="required">                                
                                 </div>                            
                         
                             
                                 <div class="column">
                                     <!-- svelte-ignore a11y-label-has-associated-control -->
                                     <label class="lable">IGIB SFTP:</label>
-                                    <input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
+                                    <input bind:value={Uploaded_IGIB_SFTP} class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
                                 </div>
                             </div>
                             <div class="column is-4">
                                 <div class="column">
                                     <!-- svelte-ignore a11y-label-has-associated-control -->
                                     <label class="lable">NIBMG DataHub:</label>
-                                    <input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
+                                    <input bind:value={Uploaded_NIBMG_DataHub} class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
                                 </div>
                                 <div class="column">
                                     <!-- svelte-ignore a11y-label-has-associated-control -->
                                     <label class="lable">GISAID:</label>
-                                    <input class="input" type="number" name="Uploaded_GISAID"  required="required">                                
+                                    <input bind:value={Uploaded_GISAID} class="input" type="number" name="Uploaded_GISAID"  required="required">                                
                                 </div>    
                                 <div class="column">
                                     <label for="lable">Any collaboration:</label>
-                                    <input class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
+                                    <input bind:value={Any_collaboration} class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
                                 </div>
 
                             </div>
@@ -93,7 +110,7 @@
 
                         <div class="column is-4 is-offset-4 mt-0 pt-0">
                             <div class="column">
-                                <button class="button is-fullwidth  is-primary">Submit</button>
+                                <button class="button is-fullwidth  is-primary" type="submit">Submit</button>
                             </div>
                         </div>  
             </form>
@@ -140,12 +157,12 @@
                                 <div style="width:100px;">
                                         <!-- <form action="{% url 'update' data.id %}" method="">
                                             {% csrf_token %} -->
-                                            <input id="pointer" type="submit" value="update">
+                                            <input class="is-success" id="pointer" type="submit" value="update">
                                         <!-- </form> -->
                                         <!-- <form action="{% url 'delete' data.id %}" method="POST">
                                             {% csrf_token %} -->
                                             <input id="pointer" type="submit" value="delete"
-                                            style="background-color: crimson; font:bold;">
+                                            >
                                         <!-- </form> -->
                                 </div>
                             </td>

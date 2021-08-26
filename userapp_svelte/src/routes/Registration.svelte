@@ -1,47 +1,27 @@
 <script>
-// import * as api from 'shared/apis';
+    import {goto} from "$app/navigation"
+    let username ='', email ='', password ='', password2 =''
 
-let username,email,password;
-let errors=[], submitting, success;
+    const submit = async () => {
+        await fetch('http://10.10.6.73/registerview', {
+            method : 'POST',
+            headers : {'content-type':'application/json'},
+            body : JSON.stringify({
+                username,
+                email,
+                password,
+                password2
+            })
+        });
 
-async function handleSubmit() {
-    submitting = true;
-    errors = [];
-    const { response, json} = await post(
-        'http://127.0.0.1:8080/registerview',
-        {user: {username, email, password}}
-    );
-    if (response.status === 200) {
-        success = json.message;
-        username = undefined;
-        email = undefined;
-        password = undefined;
+        await goto("/Login")
     }
-    else if (response.status === 401) {
-        success = undefined;
-        if (json.email) {
-            errors = [...errors, `Email ${json.email[0]}`];
-        }
-        if (json.username) {
-            errors = [...errors, `Email ${json.user[0]}`];
-        }
-        if (json.password) {
-            errors = [...errors, `Email ${json.password[0]}`];
-        }
-    }
-    else if ( response.status===404){
-        errors = ['failed'];
-    }
-    else if ( response.status===500){
-        errors = ['failed'];
-    }
-    submitting = false;
-}
 
+    
 </script>
 
 <div class="container">
-    <form on:submit|preventDefault={handleSubmit} class="box" action="" method="POST">
+    <form on:submit|preventDefault={submit} class="box">
         <!-- {% csrf_token %} -->
         <h1>Register here</h1><br>
         <div class="field">
@@ -70,7 +50,7 @@ async function handleSubmit() {
             <!-- svelte-ignore a11y-label-has-associated-control -->
             <label class="label">Confirm Password</label>
             <div class="control">
-                <input class="input" id="is_password" type="password" name="password2" placeholder="Confirm Password" required="required">
+                <input bind:value={password2} class="input" id="is_password" type="password" name="password2" placeholder="Confirm Password" required="required">
                 <i class="far fa-eye-slash" id="togglePassword1" ></i>
             </div>
         </div>

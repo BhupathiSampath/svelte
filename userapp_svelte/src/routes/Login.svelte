@@ -1,11 +1,32 @@
+<script>
+    import {goto} from "$app/navigation"
+    let email ='', password =''
+
+    const submit = async () => {
+        await fetch('http://10.10.6.73/loginview', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                email,
+                password
+            })
+            
+        });
+
+        await goto("/sequenceddata")
+    }
+
+    
+</script>
 <div class="container">
-    <form class="box" action="login" method="POST" style="margin-bottom: 10px; box-sizing: border-box;">
+    <form on:submit|preventDefault={submit} class="box" style="margin-bottom: 10px; box-sizing: border-box;">
         <h1>Login here</h1><br>
         <div class="field">
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <label class="label">Email</label>
         <div class="control">
-            <input class="input" type="email" name="email" placeholder="e.g. alex@example.com" required="required">
+            <input bind:value={email} class="input" type="email" name="email" placeholder="e.g. alex@example.com" required="required">
         </div>
         </div>
     
@@ -14,11 +35,11 @@
         <label class="label">Password</label>
         
         <div class="control">
-            <input class="input" id="id_password" type="password" name="password" placeholder="********"  required="required">
+            <input bind:value={password} class="input" id="id_password" type="password" name="password" placeholder="********"  required="required">
             <i class="far fa-eye-slash" id="togglePassword" ></i>
         </div>
         </div>
-        <div class="column is-fullwidth"><button class="button is-primary is-fullwidth">Sign in</button></div>
+        <div class="column is-fullwidth"><button class="button is-primary is-fullwidth" type="submit">Sign in</button></div>
         <div>Don't have an account? <a href="/Registration">Register</a></div>
     </form>
 </div>
