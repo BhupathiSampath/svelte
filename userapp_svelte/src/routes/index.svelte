@@ -16,14 +16,21 @@
 	Here, we'll create a derived store to hold the drink names.
 	**/
 	export const Data = derived(apiData, ($apiData) => {
-	  if ($apiData.data){
+	  if ($apiData.data) {
 		// return $apiData.data.map(username => username.username);
 		return $apiData.data;
 	  }
 	  return [];
 	});
+	export const Data1 = derived(apiData, ($apiData) => {
+	  if ($apiData.data1) {
+		// return $apiData.data.map(username => username.username);
+		return $apiData.data1;
+	  }
+	  return [];
+	});
 	onMount(async () => {
-	  fetch("http://10.10.6.73/dashboard")
+	  fetch("http://10.10.6.73/api/dashboard")
 	  .then(response => response.json())
 	  .then(data => {
 			console.log(data);
@@ -92,6 +99,19 @@
 				<td>{data.Uploaded_NIBMG_DataHub}</td>
 				<td>{data.Uploaded_GISAID}</td>
 				<td>{data.Any_collaboration}</td>
+			</tr>
+			{/each}
+			{#each $Data1 as data}
+			<tr>
+				<td>{data.username}</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
+				<td>null</td>
 			</tr>
 			{/each}
 		</tbody>

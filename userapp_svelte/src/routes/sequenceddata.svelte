@@ -2,10 +2,10 @@
 import {goto} from "$app/navigation"
 import user from './data.svelte'
 
-let username ='dilip', Total_sequenced = '', Sequenced_last_week ='', Uploaded_IGIB_SFTP ='',Uploaded_NIBMG_DataHub ='',Uploaded_GISAID ='',Any_collaboration =''
+let username ='sampath', Total_sequenced = '', Sequenced_last_week ='', Uploaded_IGIB_SFTP ='',Uploaded_NIBMG_DataHub ='',Uploaded_GISAID ='',Any_collaboration =''
 
 const submit = async () => {
-    await fetch('http://10.10.6.73/SequenceUpload', {
+    await fetch('http://10.10.6.73/api/SequenceUpload', {
         method : 'POST',
         headers : {'content-type':'application/json'},
         credentials : 'include',
@@ -36,7 +36,7 @@ const submit = async () => {
 	});
     onMount(async () => {
         // const response = await fetch('http://127.0.0.1:8000/userview', {
-        const response = await fetch('http://10.10.6.73/homeview', {
+        const response = await fetch('http://10.10.6.73/api/homeview', {
         headers: {'Content-Type':'application/json'},
         credentials: 'include',
         })
@@ -48,7 +48,7 @@ const submit = async () => {
             console.log(error);
             return [];
         });
-            console.log(content)
+            // console.log(content)
     });
 </script>
 
@@ -155,10 +155,10 @@ const submit = async () => {
                             <td>
         
                                 <div style="width:100px;">
-                                        <!-- <form action="{% url 'update' data.id %}" method="">
-                                            {% csrf_token %} -->
+                                        <form href="/sequenceupdate">
+                                            <!-- {% csrf_token %} --> 
                                             <input class="is-success" id="pointer" type="submit" value="update">
-                                        <!-- </form> -->
+                                        </form>
                                         <!-- <form action="{% url 'delete' data.id %}" method="POST">
                                             {% csrf_token %} -->
                                             <input id="pointer" type="submit" value="delete"

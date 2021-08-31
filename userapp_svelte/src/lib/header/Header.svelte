@@ -8,17 +8,11 @@
     // let email ='', password =''
 
     const logout = async () => {
-        await fetch('http://10.10.6.73/logoutview', {
+        await fetch('http://10.10.6.73/api/logoutview', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             credentials: 'include',
-            // body: JSON.stringify({
-            //     email,
-            //     password
-            // })
-            
         });
-
         await goto("/")
     }
 </script>

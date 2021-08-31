@@ -12,7 +12,7 @@
 	});
     onMount(async () => {
         // const response = await fetch('http://127.0.0.1:8000/userview', {
-        const response = await fetch('http://10.10.6.73/userview', {
+        const response = await fetch('http://localhost:8000/api/userview', {
         headers: {'Content-Type':'application/json'},
         credentials: 'include',
         })

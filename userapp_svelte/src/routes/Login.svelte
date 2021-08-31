@@ -3,17 +3,15 @@
     let email ='', password =''
 
     const submit = async () => {
-        await fetch('http://10.10.6.73/loginview', {
+        await fetch('http://localhost:8000/api/loginview', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             credentials: 'include',
             body: JSON.stringify({
                 email,
                 password
-            })
-            
+            }) 
         });
-
         await goto("/sequenceddata")
     }
 
