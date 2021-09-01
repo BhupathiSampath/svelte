@@ -66,10 +66,15 @@
 	<!-- <Router routes={{
 		'/login': Login,
 		'/registration': registration}} /> -->
-	<div class="container"><h1 class="is-size-3 has-text-centered has-text-weight-bold">Dashboard</h1></div>
-	<div class="table-container">
-	<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-		<thead class="has-text-centered">
+        <div class="box">
+		<div class="column">
+        
+        <section class="hero">
+            <div class="hero-body">
+			<h1 class="title">Dashboard</h1>
+                <div class="table-container">
+                    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                      <thead id="head" class="has-text-centered">
 			<tr>
 				<th rowspan="2">Username</th>
 				<th rowspan="2">Date</th>
@@ -116,7 +121,10 @@
 			{/each}
 		</tbody>
 	</table>
-	</div>
+        </div>
+    </section>
+    </div>
+    </div>
 	
 	
 	

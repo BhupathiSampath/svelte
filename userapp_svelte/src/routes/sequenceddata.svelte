@@ -1,29 +1,44 @@
 <script>
-import {goto} from "$app/navigation"
-import user from './data.svelte'
 
-let username ='sampath', Total_sequenced = '', Sequenced_last_week ='', Uploaded_IGIB_SFTP ='',Uploaded_NIBMG_DataHub ='',Uploaded_GISAID ='',Any_collaboration =''
-
-const submit = async () => {
-    await fetch('http://10.10.6.73/api/SequenceUpload', {
-        method : 'POST',
-        headers : {'content-type':'application/json'},
-        credentials : 'include',
-        body : JSON.stringify({
-            username,
-            Total_sequenced,
-            Sequenced_last_week,
-            Uploaded_IGIB_SFTP,
-            Uploaded_NIBMG_DataHub,
-            Uploaded_GISAID,
-            Any_collaboration
+    
+    import {onMount} from "svelte";
+    let username = ''
+    onMount(async () => {
+        const response1 = await fetch("http://10.10.6.73/api/userview", {
+            headers: {'Content-Type':'application/json'},
+            credentials: 'include',
         })
+
+        const content = await response1.json()
+        // console.log(content)
+        username =`${content.username}`;          
     });
 
-    await goto("/sequenceddata")
-};
+    import {goto} from "$app/navigation"
+    // import user from './data.svelte'
+
+    let Total_sequenced = '', Sequenced_last_week ='', Uploaded_IGIB_SFTP ='',Uploaded_NIBMG_DataHub ='',Uploaded_GISAID ='',Any_collaboration =''
+
+    const submit = async () => {
+        await fetch('http://10.10.6.73/api/SequenceUpload', {
+            method : 'POST',
+            headers : {'content-type':'application/json'},
+            credentials : 'include',
+            body : JSON.stringify({
+                username,
+                Total_sequenced,
+                Sequenced_last_week,
+                Uploaded_IGIB_SFTP,
+                Uploaded_NIBMG_DataHub,
+                Uploaded_GISAID,
+                Any_collaboration
+            })
+        });
+
+        await goto("/sequenceddata")
+    };
 // ________________homeview_________________________
-    import {onMount} from 'svelte';
+    // import {onMount} from 'svelte';
 	import { writable, derived } from 'svelte/store';
 	export const apiData = writable([]);
 	
@@ -50,6 +65,27 @@ const submit = async () => {
         });
             // console.log(content)
     });
+
+
+    async function editdata() {
+        await fetch(`http://10.10.6.73/api/updatedata/$(id)/`, {
+            method : 'PUT',
+            headers : {'content-type':'application/json'},
+            credentials : 'include',
+            body : JSON.stringify({
+                username,
+                Total_sequenced,
+                Sequenced_last_week,
+                Uploaded_IGIB_SFTP,
+                Uploaded_NIBMG_DataHub,
+                Uploaded_GISAID,
+                Any_collaboration
+            })
+        });
+        // .then(handleErrors)
+        // .then(response => response.json())
+        // .then(response => navigate(`/homeview${response.id}`, { replace: true }))
+    }
 </script>
 
 <html lang="en">
@@ -65,12 +101,15 @@ const submit = async () => {
 
 
 
-    <div class="box">
-        <h1>Upload your sequenced data here.</h1>
+    <div class="section">
+        <div class="cloumns">
+        <div class="column">
+        <div class="box">
+        <h1 class="title is-4">Upload your sequenced data here.</h1>
             <form on:submit|preventDefault={submit}>
                         <div class="columns is-centered mb-0">
                             <div class="column is-4">
-                                    <input type="hidden" class="input" value={username} hidden>
+                                    <input type="hidden" class="input" name='username' bind:value={username} hidden>
                                 <div class="column">
                                     <!-- svelte-ignore a11y-label-has-associated-control -->
                                     <label>Total sequenced:</label>
@@ -115,9 +154,14 @@ const submit = async () => {
                         </div>  
             </form>
         </div>
-        <section class="hero">
-            <div class="hero-body">
+        </div>
+        <div class="box">
+        <div class="column">
+        
+        <!-- <section class="hero"> -->
+            <!-- <div class="hero-body"> -->
                 <div class="table-container">
+                <h1 class="title is-4">Your sequenced data is here.</h1>
                     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                       <thead id="head" class="has-text-centered">
                         <tr>
@@ -154,15 +198,17 @@ const submit = async () => {
                             <td>{data.Any_collaboration}</td>
                             <td>
         
-                                <div style="width:100px;">
-                                        <form href="/sequenceupdate">
+                                <div>
+                                        <form action="{data.id}">
                                             <!-- {% csrf_token %} --> 
-                                            <input class="is-success" id="pointer" type="submit" value="update">
+                                            <button class="tag is-primary">Update</button>
+                                            <!-- <input class="is-success" id="pointer" type="submit" value="update"> -->
                                         </form>
                                         <!-- <form action="{% url 'delete' data.id %}" method="POST">
                                             {% csrf_token %} -->
-                                            <input id="pointer" type="submit" value="delete"
-                                            >
+                                            <button class="tag is-danger">Delete</button>
+                                            <!-- <input id="pointer" type="submit" value="delete" -->
+                                            <!-- > -->
                                         <!-- </form> -->
                                 </div>
                             </td>
@@ -170,7 +216,12 @@ const submit = async () => {
                         {/each}
                     </tbody>
                 </table>
-        </div>
-    </section>
+        <!-- </div> -->
+    <!-- </section> -->
+    </div>
+    </div>
+</div>
+</div>
+
 </body>
 </html>

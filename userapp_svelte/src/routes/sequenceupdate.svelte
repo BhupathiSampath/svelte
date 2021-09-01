@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    
+    <!-- <div style="width:100px;">
+        <form action="{% url 'Home' %}" method="">
+            {% csrf_token %}
+            <button style="left: 10px"class="button is-fullwidth  is-danger">Back</button>
+        </form>
+    </div> -->
+    <div class="container">
+        <form action="" method="post">
+            <h1><b>Update your data here</b></h1>
+				<div class="columns is-centered mb-0">
+					<div class="column is-6">
+							<input type="hidden" class="input" name="username" value="sampath" hidden>
+						<div class="column">
+							<label>Total sequenced:</label>
+							<input class="input" type="number" name="Total_sequenced"  required="required">                                
+						</div>
+						<div class="column">
+							<label class="lable">Last week:</label>
+							<input class="input" type="number" name="Sequenced_last_week"  required="required">                                
+						</div>                            
+				
+					
+						<div class="column">
+							<label class="lable">IGIB SFTP:</label>
+							<input class="input" type="number" name="Uploaded_IGIB_SFTP"  required="required">                                
+						</div>
+					</div>
+					<div class="column is-6">
+						<div class="column">
+							<label class="lable">NIBMG DataHub:</label>
+							<input class="input" type="number" name="Uploaded_NIBMG_DataHub"  required="required">                                
+						</div>
+						<div class="column">
+							<label class="lable">GISAID:</label>
+							<input class="input" type="number" name="Uploaded_GISAID"  required="required">                                
+						</div>    
+						<div class="column">
+							<label for="lable">Any collaboration:</label>
+							<input class="input" id="lable" type="text" name="Any_collaboration"  required="required">                                
+						</div>
+
+					</div>
+				</div>
+    
+                <div class="column is-4 is-offset-4 mt-0 pt-0">
+					<div class="column">
+							<button class="button is-fullwidth  is-primary">Update</button>
+					</div>
+                </div> 
+        </form>
+    </div>
+</body>
+</html>

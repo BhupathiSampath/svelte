@@ -3,7 +3,7 @@
     let email ='', password =''
 
     const submit = async () => {
-        await fetch('http://localhost:8000/api/loginview', {
+        await fetch('http://10.10.6.73/api/loginview', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             credentials: 'include',
@@ -17,29 +17,39 @@
 
     
 </script>
+<div class="box">
 <div class="container">
+    <div class="column is-4">
+        <p class="panel-heading has-text-centered">
+            Login here
+          </p>
     <form on:submit|preventDefault={submit} class="box" style="margin-bottom: 10px; box-sizing: border-box;">
-        <h1>Login here</h1><br>
         <div class="field">
-        <!-- svelte-ignore a11y-label-has-associated-control -->
-        <label class="label">Email</label>
-        <div class="control">
-            <input bind:value={email} class="input" type="email" name="email" placeholder="e.g. alex@example.com" required="required">
+            <!-- svelte-ignore a11y-label-has-associated-control -->
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+              <input bind:value={email} class="input" type="email" placeholder="Email" required="required">
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </div>
         </div>
-        </div>
-    
         <div class="field">
-        <!-- svelte-ignore a11y-label-has-associated-control -->
-        <label class="label">Password</label>
-        
-        <div class="control">
-            <input bind:value={password} class="input" id="id_password" type="password" name="password" placeholder="********"  required="required">
-            <i class="far fa-eye-slash" id="togglePassword" ></i>
-        </div>
-        </div>
+            <!-- svelte-ignore a11y-label-has-associated-control -->
+            <label class="label">Password</label>
+            <p class="control has-icons-left">
+                <input bind:value={password} class="input" id="id_password" type="password" name="password1" placeholder="Password"  required="required">
+                <i class="far fa-eye-slash" id="togglePassword" ></i>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+        </div> 
         <div class="column is-fullwidth"><button class="button is-primary is-fullwidth" type="submit">Sign in</button></div>
         <div>Don't have an account? <a href="/Registration">Register</a></div>
     </form>
+</div>
+</div>
 </div>
 
 

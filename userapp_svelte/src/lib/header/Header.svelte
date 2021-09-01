@@ -1,4 +1,12 @@
 <script>
+	import {onMount} from 'svelte'
+    onMount(() => {
+        const burgerIcon = document.querySelector('#burger')
+        const navbarMenu = document.querySelector('#nav-links')
+        burgerIcon.addEventListener('click', () => {
+          navbarMenu.classList.toggle('is-active');
+        });
+  });
 	import { page } from '$app/stores';
 	// import { authenticated } from "/home/icgc_sub/Desktop/svelteproject/userapp_svelte/src/lib/header/stores/auth.js";
 	// // import {authenticated} from '/home/icgc_sub/Desktop/svelteproject/userapp_svelte/src/stores/auth.js'
@@ -23,7 +31,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" >
 	<!-- //web font -->
 	</head>
-	<nav class="navbar has-shadow is-dark">
+	<nav class="navbar has-shadow is-dark is-fixed-top">
 		<a class="navbar-burger" id="burger">
 			<span></span>
 			<span></span>
@@ -37,7 +45,7 @@
 					<a class:active={$page.path === '/Login'} class="navbar-item" sveltekit:prefetch href="/Login">Login</a>
 					<a href="/#/" class="navbar-item" on:click={logout}>Logout</a>
 					<a class:active={$page.path === '/'} class="navbar-item" sveltekit:prefetch href="/">Dashboard</a>
-					<a class:active={$page.path === '/sequenceddata'} class="navbar-item" sveltekit:prefetch href="sequenceddata/">Home</a>
+					<a class:active={$page.path === '/sequenceddata'} class="navbar-item" sveltekit:prefetch href="/sequenceddata">Home</a>
 					<!-- <a class="navbar-item" href="product">About product</a>
 					<a class="navbar-item" class:active={$page.path === '/'} sveltekit:prefetch href="/">Home</a>
 					<a class:active={$page.path === '/about'} sveltekit:prefetch href="/about">About</a>
